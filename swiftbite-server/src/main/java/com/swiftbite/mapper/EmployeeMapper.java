@@ -1,5 +1,7 @@
 package com.swiftbite.mapper;
 
+import com.github.pagehelper.Page;
+import com.swiftbite.dto.EmployeePageQueryDTO;
 import com.swiftbite.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,5 +26,12 @@ public interface EmployeeMapper {
     "values" +
     "(#{name}, #{username}, #{password}, #{phone}, #{sex}, #{idNumber}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser}, #{status})")
     void insert(Employee employee);
+
+    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
 }
 

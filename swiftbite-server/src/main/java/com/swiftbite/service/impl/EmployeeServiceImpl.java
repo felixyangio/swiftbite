@@ -1,16 +1,20 @@
 package com.swiftbite.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.swiftbite.constant.MessageConstant;
 import com.swiftbite.constant.PasswordConstant;
 import com.swiftbite.constant.StatusConstant;
 import com.swiftbite.context.BaseContext;
 import com.swiftbite.dto.EmployeeDTO;
 import com.swiftbite.dto.EmployeeLoginDTO;
+import com.swiftbite.dto.EmployeePageQueryDTO;
 import com.swiftbite.entity.Employee;
 import com.swiftbite.exception.AccountLockedException;
 import com.swiftbite.exception.AccountNotFoundException;
 import com.swiftbite.exception.PasswordErrorException;
 import com.swiftbite.mapper.EmployeeMapper;
+import com.swiftbite.result.PageResult;
 import com.swiftbite.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -89,6 +94,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.insert(employee);
 
 
+    }
+
+    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+
+        long total = page.getTotal();
+        List<Employee> records = page.getResult();
+
+        return new PageResult(total, records);
     }
 
 }

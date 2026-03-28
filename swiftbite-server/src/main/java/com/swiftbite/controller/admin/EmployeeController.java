@@ -3,18 +3,17 @@ package com.swiftbite.controller.admin;
 import com.swiftbite.constant.JwtClaimsConstant;
 import com.swiftbite.dto.EmployeeDTO;
 import com.swiftbite.dto.EmployeeLoginDTO;
+import com.swiftbite.dto.EmployeePageQueryDTO;
 import com.swiftbite.entity.Employee;
 import com.swiftbite.properties.JwtProperties;
+import com.swiftbite.result.PageResult;
 import com.swiftbite.result.Result;
 import com.swiftbite.service.EmployeeService;
 import com.swiftbite.utils.JwtUtil;
 import com.swiftbite.vo.EmployeeLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +77,19 @@ public class EmployeeController {
         log.info("add employee: {}", employeeDTO);
         employeeService.save(employeeDTO);
         return Result.success();
+    }
+
+
+    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
+        log.info("员工分页查询,参数为: {}", employeePageQueryDTO);
+        PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
+        return Result.success(pageResult);
     }
 
 }
