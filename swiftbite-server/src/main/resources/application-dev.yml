@@ -1,8 +1,8 @@
-sky:
+swiftbite:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
     port: 3306
-    database: sky_take_out
+    database: swift_bite
     username: root
-    password: root
+    password: yangfan0810
